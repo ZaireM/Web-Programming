@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SimpleTime 2/14 - 2/21</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+<body class="bg-dark">
+    <div class="d-flex col-12 justify-content-center align-items-center vh-100">
+        <div class="card col-12 col-md-5 col-lg-4" id="divLogin">
+            <div class="card-header text-center">
+                <h3>Login</h3>
+            </div>
+            <div class="card-body">
+
+                <form>
+
+                    <div class="form-group mt-4">
+                        <label for="txtLoginEmail" class="form-label">Email</label>
+                        <input id="txtLoginEmail" class="form-control" placeholder="Email" aria-label="Email" type="email">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="txtLoginPassword" class="form-label">Password</label>
+                        <input id="txtLoginPassword" class="form-control" placeholder="Password" aria-label="Password" type="password">
+                    </div>
+                    <hr /> <!--This is to include a horizontal rule to seperate content(horizonal line)-->
+                    <button class="col-12 btn btn-success mt-4" id="btnLogin" type="button">Login</button>
+                    <div class="col-12 d-flex justify-content-center">
+                        <a class="col-12 text-center btnToggle">Need an Account?    Click Here</a> 
+                    </div>
+                    
+                </form>
+            </div>
+        </div>
+
+        <div class="card col-12 col-md-5 col-lg-4" id="divRegister" style="display:none;">
+            <div class="card-header text-center">
+                <h3>Registration</h3>
+            </div>
+            <div class="card-body">
+                <form>
+
+                    <div class="form-group">
+                        <label for="txtFirstName" class="form-label">First Name</label>
+                        <input id="txtFirstName" class="form-control" placeholder="First Name" aria-label="First Name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="txtLastName" class="form-label">Last Name</label>
+                        <input id="txtLastName" class="form-control" placeholder="Last Name" aria-label="Last Name">
+                    </div>
+                    <!-- Here is where at first I named the Email attribute 'txtLoginEmail' but this cause naming convention confusion(same with Password) -->
+                    <div class="form-group mt-4">
+                        <label for="txtEmail" class="form-label">Email</label>
+                        <input id="txtEmail" class="form-control" placeholder="Email" aria-label="Email" type="email">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="txtPassword" class="form-label">Password</label>
+                        <input id="txtPassword" class="form-control" placeholder="Password" aria-label="Password" type="password">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="txtOrgId mt-4" class="form-label">Organization ID</label>
+                        <input id="txtOrgId" class="form-control" placeholder="Organization ID" aria-label="Organization Id">
+                    </div>
+
+                    <button class="col-12 btn btn-success mt-4" id="btnRegister" type="button">Register</button>
+
+                    <div class="col-12 d-flex justify-content-center">
+                        <a class="col-12 text-center btnToggle" data-card="Register">Return to Login</a> 
+                    </div>
+        
+                </form>
+            </div>
+        </div>
+        <div class="card col-12 col-md-10 col-lg-9" id="divDashboard" style="display:none;">
+            <div class="card-header">
+                <h3>Dashboard</h3>
+            </div>
+            <div class="card-body">
+                This is a Dashboard
+                <button class="btn btn-danger col-12 col-md-10 col-lg-9" id="btnLogout">Logout</button>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> 
+    <script>
+
+        //This here is an ajax function
+        function updateSession(strSessionID){
+            $.ajax({
+                url: 'https://www.thesimplehomestead.com/simpletime/sessions.php',
+                type: 'PUT',
+                data: {SessionID:strSessionID},
+                success: function(result){
+                    console.log(result);
+                }
+            });
+        }
+        //Have to us . for btn here because it is a class
+
+        //makes a get JSON request and turns into a JSOn object
+        $.getJSON('https://www.thesimplehomestead.com/simpletime/sessions.php',
+            {SessionID:sessionStorage.getItem('SimpleSession')},
+            function(sessionDetails){
+                console.log(sessionDetails);
+                if(sessionDetails != null){
+                    $('#dinLogin').slideUp(function(){
+                        $('#divDashboard').slideDown();
+                    })
+                } else if(sessionDetails.Email){
+                    $('#divLogin').slideUp(function(){
+                        $('#divDashboard').slideDown();
+                    })
+                }
+            })
+
+        $('#btnLogout').on('click',function(){
+            $ajax({
+                url: 'https://www.thesimplehomestead.com/simpletime/sessions.php',
+                type: 'DELETE',
+                success: function(result){
+                    sessionStorage.removeItem('SimpleSession');
+                    $('#divDashboard').slideUp(function(){
+                        $('#divLogin').slideDown();
+                    })
+                }
+            });
+        })
+        //This '.' means that btnToggle is a class? (Chat, check with Dr.B)
+        $('.btnToggle').on('click',function(){
+            let strCard = $(this).attr('data-card');
+                if(strCard == 'Login'){
+                    $('#divLogin').slideToggle(function(){
+                        $('#divRegister').slideToggle();
+                    })
+                } else {
+                    $('#divRegister').slideToggle(function(){
+                        $('#divLogin').slideToggle();
+                    })
+                }
+        })
+
+        $('#btnLogin').on('click',function(){
+            let strEmail = $('#txtLoginEmail').val();
+            let strPassword = $('#txtLoginPassword').val();
+
+            if(strEmail.length < 1 || strPassword.length < 1) {
+                Swal.fire({
+                            title: "Oops!",
+                            html: '<p>Email and Password cannot be blank.</p>',
+                            icon: "error"
+                        });
+            } else { //May Be wrong.....
+                $.post('https://www.thesimplehomestead.com/simpletime/sessions.php',{Email:strEmail,Password:strPassword},function(results){
+                    results = JSON.parse(results);
+                    console.log(results)
+                    sessionStorage.setItem('SimpleSession',results.SessionID)
+                    
+                })
+            }
+        })
+
+        $('#btnRegister').on('click',function()
+        {
+            let blnError = false;
+            let strError = '';
+
+            let strFirstName = $('#txtFirstName').val();
+            let strLastName = $('#txtLastName').val();
+            let strEmail = $('#txtEmail').val();
+            let strPassword = $('#txtPassword').val();
+            let strOrgId = $('#txtOrgId').val();
+            
+            if(strFirstName.length <1){
+                blnError = true;
+                strError += '<p>First name cannot be blank.</p>'
+            }
+
+            if(strLastName.length <1){
+                blnError = true;
+                strError += '<p>Last name cannot be blank.</p>'
+            }
+            
+            if(strEmail.length <7){
+                blnError = true;
+                strError += '<p>Email has to be valid.</p>'
+            
+            } else if(!strEmail.includes('@')){
+                blnError = true;
+                strError += '<p>Email is invalid.</p>'
+            } else if(!strEmail.includes('.')){
+                blnError = true;
+                strError += '<p>Email is invalid.</p>'
+            }
+
+            if(strPassword.length <6){
+                blnError = true;
+                strError += '<p>Password has to be atleast 6 chacters long.</p>'
+            }
+
+            if(strOrgId.length != 4){
+                blnError = true;
+                strError += '<p>Invalid Org Id.</p>'
+            }
+
+            if(blnError == true){
+                    //console.log(strErrorMessage);
+                    Swal.fire({
+                        title: "Oops!",
+                        html: strError,
+                        icon: "error"
+                    });
+            } else {
+                        $.post('https://www.thesimplehomestead.com/simpletime/sessions.php',{Email:strEmail,FirstName:strFirstName,LastName:strLastName,OrgNumber:strOrgId,Password:strPassword},function(result){
+                            result = JSON.parse(result);
+                            console.log(result);
+                            if(result.Error){
+                                Swal.fire({
+                                    title: "Oops!",
+                                    html: '<p>' + result.Error + '</p>',
+                                    icon: "error"
+                                });      
+                            }
+                        })
+                    }
+        })
+    </script>
+</body>
+</html>
+
+IM Getting a Bad Uername/Password Error when clicking the register btn!!!!!!!!!!!!!!(2/21/24)
