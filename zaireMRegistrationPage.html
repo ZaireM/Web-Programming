@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zaire M. Registration Page</title>
+    <link href="CSS/lib/bootstrap.min.css" rel="stylesheet">
+</head> <!--This is where info that not seen goes, Only info that affects the page(Example:CSS)-->
+<body class="bg-dark">
+    <div class="col-10 col-mid-6 col-lg-4 offset-md-3 offset-1 offset-lg-4 card mt-5 text-black"> <!--This will always take up 12 columns unless dimensions are mid, or lg, never take up full screen(10 not 12)-->
+        <div class="card-body">
+                <h3>Registration</h3>
+                    <form class="col-10 offset-1"> 
+
+                        <label for="txtFirstName" class="form-label" >First Name</label>
+                        <input id="txtFirstName" type="text" placeholder="First Name" aria-label="First Name" class="form-control">
+                        <label for="txtLastName" class="form-label" >Last Name</label>
+                        <input id="txtLastName" type="text" placeholder="Last Name" aria-label="Last Name" class="form-control">
+                        <label for="txtStreetAddress 1" class="form-label" >Street Address 1</label>
+                        <input id="txtStreetAddress 1" type="text" placeholder="Street Address 1" aria-label="Street Address 1" class="form-control">
+                        <label for="txtStreetAddress2" class="form-label" >Street Address 2</label>
+                        <input id="txtStreetAddress2" type="text" placeholder="Street Address 2" aria-label="Street Address 2" class="form-control">
+                        <label for="txtCity" class="form-label" >City</label>
+                        <input id="txtCity"type="text" placeholder="City" aria-label="City" class="form-control">
+                        <label for="txtState" class="form-label" >State</label>
+                        <input id="txtState" type="text" placeholder="State" aria-label="State" class="form-control">
+                        <label for="txtZIP" class="form-label" >ZIP</label>
+                        <input id="txtZIP" type="text" placeholder="ZIP" aria-label="ZIP" class="form-control">
+                        <label for="txtMobilePhone" class="form-label" >Mobile Phone</label>
+                        <input id="txtMobilePhone" type="number" placeholder="Mobile Phone" aria-label="Mobile Phone" class="form-control">
+                        <label for="txtEmail/UserName" class="form-label" >Email/Username</label>
+                        <input id="txtEmail/Username" type="email" placeholder="Email/Username" aria-label="Email/Username" class="form-control">
+                        <label for="txtPassword" class="form-label" >Password</label>
+                        <input id="txtPassword" type="password"  placeholder="Password" aria-label="Password" class="form-control" >
+                    
+                        <button id="btnSubmit" class="btn btn-primary col-12 mt-" type="button"  >Submit</button>
+                        <button id="Reset" class="btn btn-secondary col-12 mt-" type="button"  >Reset</button>
+                
+                        
+
+                    </form>
+
+        </div>
+    </div>
+    
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        
+        $('#btnSubmit').on('click',function(){
+            
+            $('#txtFirstName').val('');
+            $('txtLastName').val('');
+            $('txtStreetAddress1').val('');
+            $('StreetAddress2').val('');
+            $('City').val('');
+            $('State').val('');
+            $('ZIP').val('');
+            $('Mobile Phone').val('');
+            $('Email/Username').val('');
+            $('Password').val('');
+        })
+
+        $('#btnSubmit').on('click',function() {
+
+            let strFirstName = $('#txtFirstName').val();
+            let strLastName = $('#txtLastName').val();
+            let strStreetAddress1 = $('#txtStreetAddress1').val();
+            let strStreetAddress2 = $('#txtStreetAddress2').val();
+            let strCity = $('#txtCity').val();
+            let strState = $('#txtState').val();
+            let strZIP = $('#txtZIP').val();
+            let strMobilePhone = $('#txtMobilePhone').val();
+            let strEmailUsername = $('#txtEmail/Username').val();
+            let strPassword = $('#txtPassword').val();
+            console.log('Hello ' + strFirstName);
+
+            let blnError = false; <!--This allows us to validate all the useres response at the same time-->
+            let strErrorMessage;
+
+            if(strFirstName.length < 1)
+                {
+                    blnError = true;
+                    strErrorMessage = strErrorMessage + 'First Name cannot be blank.    '
+                    //console.log('First Name too short');
+                }
+
+                if(strLastName.length < 1)
+                {
+                    blnError = true;
+                    strErrorMessage = strErrorMessage + 'Last Name cannot be blank.    '
+                    //console.log('Last Name too short');
+                }
+
+                if(strStreetAddress1.length < 1)
+                {
+                    blnError = true;
+                    strErrorMessage = strErrorMessage + 'Street Address 1 cannot be blank.    '
+                    //console.log('Street Address 1 too short');
+                }
+
+                if(strStreetAddress2.length < 1)
+                {
+                    blnError = true;
+                    strErrorMessage = strErrorMessage + 'Street Address 2 cannot be blank.    '
+                    //console.log('Street Address 2 too short');
+                }
+                if(strCity.length < 1)
+                {
+                    blnError = true;
+                    strErrorMessage = strErrorMessage + 'City cannot be blank.    '
+                    //console.log('City too short');
+                }
+
+                if(strState.length < 1)
+                {
+                    blnError = true;
+                    strErrorMessage = strErrorMessage + 'State cannot be blank.    '
+                    //console.log('State too short');
+                }
+
+                if(strZIP.length < 1)
+                {
+                    blnError = true;
+                    strErrorMessage = strErrorMessage + 'ZIP cannot be blank.    '
+                    //console.log('ZIP too short');
+                }
+
+                if(strMobilePhone.length < 1)
+                {
+                    blnError = true;
+                    strErrorMessage = strErrorMessage + 'Mobile Phone cannot be blank.    '
+                    //console.log('Mobile Phone too short');
+                }
+                
+                if(strEmailUsername.length < 1)
+                {
+                    blnError = true;
+                    strErrorMessage = strErrorMessage + 'Email/Username cannot be blank.    '
+                    //console.log('Email/Username too short');
+                }
+
+                if(strPassword.length < 1)
+                {
+                    blnError = true;
+                    strErrorMessage = strErrorMessage + 'Password cannot be blank.    '
+                    //console.log('Password too short');
+                }
+                 
+                if(blnError == true)
+                {
+                    console.log(strErrorMessage);
+                    Swal.fire({
+                                title: "Opps?",
+                                text: strErrorMessage,
+                                icon: "error"
+                             });
+                } else{
+                    console.log('No Errors Found');
+                }
+            
+        })
+
+    </script>
+
+</body>
+</html>
